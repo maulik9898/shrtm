@@ -2,6 +2,7 @@ from flask import Response, request
 from flask_restful import Resource
 
 from service.service import Service
+from utils.utils import *
 
 api = Service()
 
@@ -14,6 +15,14 @@ class RootApi(Resource):
 
     def post(self):
         body = request.get_json()
+        if not body.get('slug'):
+            c = 200
+            slug = generate_slug()
+            while c != 200:
+                slug = generate_slug()
+                r, c = api.find_url(slug)
+            body['slug'] = slug
+
         resp, code = api.create_short_url(body)
         return Response(resp, mimetype="application/json", status=code)
 
