@@ -11,10 +11,10 @@ class MongoRepository(object):
 
     def find(self, slug):
         try:
-            short_url = ShortUrl.objects.with_id(slug).to_json()
+            short_url = ShortUrl.objects.get(slug=slug)
             status_code = 200
-        except AttributeError:
-            short_url = json.dumps({'slug': slug, 'error': "Slug not found"})
+        except DoesNotExist:
+            short_url = {'slug': slug, 'error': "Slug not found"}
             status_code = 404
             return short_url, status_code
 
@@ -23,9 +23,9 @@ class MongoRepository(object):
     def create(self, short_link):
         status_code = 200
         try:
-            short_url = ShortUrl(**short_link).save(force_insert=True).to_json()
-        except NotUniqueError:
-            short_url = json.dumps({'slug': short_link['slug'], 'error': "Slug already present"})
+            short_url = ShortUrl(**short_link).save(force_insert=True)
+        except :
+            short_url = {'slug': short_link['slug'], 'error': "Slug already present"}
             status_code = 409
 
         return short_url, status_code
@@ -36,12 +36,12 @@ class MongoRepository(object):
         try:
             updated_fields = ShortUrl.objects.get(slug=slug).update(**body)
             if updated_fields == 0:
-                short_url = json.dumps({'slug': slug, 'error': "Error updating slug"})
+                short_url = {'slug': slug, 'error': "Error updating slug"}
                 status_code = 404
             else:
                 short_url, status_code = self.find(slug)
         except DoesNotExist:
-            short_url = json.dumps({'slug': slug, 'error': "Slug not found"})
+            short_url = {'slug': slug, 'error': "Slug not found"}
             status_code = 404
 
         return short_url, status_code

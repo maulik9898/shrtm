@@ -4,7 +4,7 @@ from . import db
 
 
 class ShortUrl(db.Document):
-    slug = db.StringField(required=True, primary_key=True)
+    slug = db.StringField(required=True, unique=True)
     originalUrl = db.StringField(required=True)
     visits = db.IntField(default=0)
     password = db.StringField()
@@ -12,6 +12,8 @@ class ShortUrl(db.Document):
 
     meta = {
         'collection': 'shorturl',
-        'auto_create_index': False,
+        'indexes': [
+            'slug'
+        ]
 
     }
