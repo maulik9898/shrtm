@@ -5,15 +5,19 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ShorturlService} from './shorturl.service';
 import { PageRedirectComponent } from './page-redirect/page-redirect.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
+   {path: 'not-found', component: NotFoundComponent},
   {path: ':slug', component: PageRedirectComponent}
+
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageRedirectComponent
+    PageRedirectComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
