@@ -2,29 +2,61 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import { AppComponent } from './app.component';
-import {HttpClientModule} from '@angular/common/http';
-import {ShorturlService} from './shorturl.service';
-import { PageRedirectComponent } from './page-redirect/page-redirect.component';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {ShorturlService} from './service/shorturl.service';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { CreateShortUrlComponent } from './create-short-url/create-short-url.component';
+import { GetShortUrlComponent } from './get-short-url/get-short-url.component';
+import { LoginComponent } from './login/login.component';
+
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
+import {AuthService} from './service/auth.service';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {AuthGuard} from './auth.guard';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SettingsComponent } from './settings/settings.component';
+import {TokenInterceptor} from './_interceptor/token.interceptor';
+
+
 
 const routes: Routes = [
    {path: 'not-found', component: NotFoundComponent},
-  {path: ':slug', component: PageRedirectComponent}
+  {path: 'sign-in', component: LoginComponent},
+  {path: 'sign-up', component: SignUpComponent},
+  {path: '', component: DashboardComponent},
+  {path: 'settings', component: SettingsComponent, canActivate: [AuthGuard]}
 
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageRedirectComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    CreateShortUrlComponent,
+    GetShortUrlComponent,
+    LoginComponent,
+    SignUpComponent,
+    DashboardComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [ShorturlService],
+  providers: [
+    ShorturlService,
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

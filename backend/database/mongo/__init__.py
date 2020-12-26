@@ -14,6 +14,7 @@ def initialize_db(app):
     h = h.replace('[:pass]', urllib.parse.quote_plus(p))
     app.config['MONGODB_SETTINGS'] = {
         'db': 'shrtm',
-        'host': h,
+       # 'host': h,
+        'host': 'mongodb://127.0.0.1:27017/'
     }
     db.init_app(app)

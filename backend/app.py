@@ -1,7 +1,9 @@
 from flask import Flask, render_template, redirect
 from flask_restful import Api
 from flask_cors import CORS
-from resources.root import api
+
+from auth.middleware import firebase_initialization
+from resources.link import api
 from database.mongo import initialize_db
 from resources import initialize_routes
 
@@ -11,6 +13,7 @@ CORS(app)
 api_app = Api(app)
 
 initialize_routes(api_app)
+firebase_initialization()
 
 initialize_db(app)
 
@@ -22,7 +25,7 @@ def index():
 
 @app.route('/<slug>', methods=['GET'])
 def redirects(slug):
-    res , code = api.find_url(slug)
+    res, code = api.find_url(slug)
     return redirect(res['originalUrl'], 302)
 
 
