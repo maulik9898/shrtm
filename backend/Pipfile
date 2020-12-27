@@ -4,8 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask-restful = "*"
+flask-mongoengine = "*"
 flask = "*"
 firebase-admin = "*"
+gunicorn = "*"
+flask-cors = "*"
 
 [dev-packages]
 

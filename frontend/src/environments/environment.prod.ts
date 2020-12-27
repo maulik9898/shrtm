@@ -1,3 +1,5 @@
+import * as data from '../service.json';
 export const environment = {
-  production: true
+  production: true,
+   firebase: data.firebaseConfig
 };

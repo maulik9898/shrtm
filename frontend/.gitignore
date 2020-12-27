@@ -7,8 +7,11 @@
 # Only exists if Bazel was run
 /bazel-out
 
+/src/service.json
 # dependencies
 /node_modules
+
+service.json
 
 # profiling files
 chrome-profiler-events*.json
