@@ -16,7 +16,6 @@ def check_token(f):
             return {'message': 'No valid token provided'}, 400
         try:
             token = request.headers['authorization'].split(' ')[1]
-            print(token)
             user = auth.verify_id_token(token)
             request.user = user
             request.user['userId'] = user['uid']

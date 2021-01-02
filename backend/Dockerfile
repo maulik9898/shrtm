@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9-slim
 
 RUN pip install pipenv
 # Setting an environment variable with the directory
@@ -10,11 +10,11 @@ RUN mkdir $APP
 WORKDIR $APP
 
 # Exposing the port for Gunicorn
-EXPOSE 5000
+
 
 COPY Pipfile* ./
 
-
+ENV PORT 8080
 
 # Copying requirements to the APP directory in order to install the required libs
 
@@ -25,4 +25,4 @@ RUN pipenv install --system --deploy --ignore-pipfile
 COPY . .
 
 # Finally, run the app with Gunicorn command
-CMD [ "gunicorn", "-c", "gunicorn.conf.py", "wsgi:app" ]
+CMD exec gunicorn --bind :$PORT --workers 2 --threads 8 --timeout 0 app:app

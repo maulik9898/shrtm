@@ -1,4 +1,6 @@
-from flask import Flask, render_template, redirect
+import os
+
+from flask import Flask, render_template, redirect, request
 from flask_restful import Api
 from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -20,11 +22,12 @@ firebase_initialization()
 initialize_db(app)
 
 
-@app.route('/<slug>', methods=['GET'])
-def redirects(slug):
-    res, code = api.find_url(slug)
-    return redirect(res['originalUrl'], 302)
+@app.route("/", methods=["GET"])
+def hello():
+    """ Return a friendly HTTP greeting. """
+    who = request.args.get("who", "World")
+    return f"Hello {who}!\n"
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))

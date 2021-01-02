@@ -1,4 +1,3 @@
-export const API_URL = 'http://localhost';
 
 export const environment = {
   production: false,

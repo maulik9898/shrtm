@@ -4,7 +4,8 @@ from flask import request
 
 from service.userservice import UserService
 
-api=UserService()
+api = UserService()
+
 
 def check_apiKey(f):
     @wraps(f)
@@ -14,12 +15,10 @@ def check_apiKey(f):
             return f(*args, **kwargs)
 
         token = request.headers['X-Api-Key']
-        print(token)
         user = api.find_key(token)
         if not user:
             return {'message': 'No valid token provided'}, 400
         request.user = user
-        print(request.user)
         return f(*args, **kwargs)
 
     return wrap

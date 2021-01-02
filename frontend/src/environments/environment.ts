@@ -5,7 +5,8 @@ import * as data from '../service.json';
 
 export const environment = {
   production: false,
-  firebase: data.firebaseConfig
+  firebase: data.firebaseConfig,
+  API_URL: 'http://localhost:5000'
 };
 
 /*
