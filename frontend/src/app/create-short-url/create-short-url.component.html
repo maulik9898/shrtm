@@ -1,0 +1,15 @@
+<form [formGroup]="createLinkForm" (ngSubmit)="createLink()">
+
+  <label>
+    Url:
+    <input type="text" formControlName="url" required>
+  </label>
+
+  <label>
+    Slug:
+    <input type="text" formControlName="slug">
+    <span *ngIf="error">{{error}}</span>
+  </label>
+  <button type="submit" [disabled]="!createLinkForm.valid">Submit</button>
+
+</form>
