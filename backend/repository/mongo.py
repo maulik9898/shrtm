@@ -13,8 +13,6 @@ class MongoShortUrlRepository(object):
         try:
             short_url = ShortUrl.objects.get(slug=slug).to_mongo().to_dict()
             status_code = 200
-            del short_url['_id']
-            del short_url['userId']
         except DoesNotExist:
             short_url = {'slug': slug, 'error': "Slug not found"}
             status_code = 404
@@ -26,8 +24,6 @@ class MongoShortUrlRepository(object):
         status_code = 200
         try:
             short_url = ShortUrl(**short_link).save(force_insert=True).to_mongo().to_dict()
-            del short_url['_id']
-            del short_url['userId']
         except Exception as e:
             short_url = {'slug': short_link['slug'], 'error': "Slug already present"}
             status_code = 409
@@ -50,7 +46,7 @@ class MongoShortUrlRepository(object):
 
         return short_url, status_code
 
-    def delete(self, slug,user_id):
+    def delete(self, slug, user_id):
         try:
             deleted_field = ShortUrl.objects.get(Q(slug=slug) & Q(userId=user_id)).delete()
             short_url = {'slug': slug, 'message': "Slug deleted"}
@@ -83,7 +79,7 @@ class MongoUserRepository(object):
 
     def update(self, body):
         try:
-            updated_fields = User.objects.get(userId = body['userId']).update(apiKey=body['apiKey'])
+            updated_fields = User.objects.get(userId=body['userId']).update(apiKey=body['apiKey'])
             user = self.find(body['userId'])
         except DoesNotExist:
             user = None
@@ -92,7 +88,7 @@ class MongoUserRepository(object):
     def delete(self, slug):
         pass
 
-    def find_key(self,key):
+    def find_key(self, key):
         try:
             user = User.objects.get(apiKey=key).to_mongo().to_dict()
             del user['_id']
@@ -100,5 +96,3 @@ class MongoUserRepository(object):
             user = None
 
         return user
-
-

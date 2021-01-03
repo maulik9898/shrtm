@@ -13,5 +13,7 @@ class Root(Resource):
         res, code = api.find_url(slug)
         if code != 200:
             return f" url not found", code
+        if res['password']:
+            return redirect('/'+slug+'/protected',302)
         return redirect(res['originalUrl'], 302)
 

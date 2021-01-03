@@ -1,12 +1,14 @@
+import json
 import os
 
-from flask import Flask, render_template, redirect, request
+from bson import json_util
+from flask import Flask, request, jsonify, Response
 from flask_restful import Api
 from flask_cors import CORS
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from auth.middleware import firebase_initialization
-from resources.link import api
+from exceptions.invalidapiusage import InvalidAPIUsage
 from database.mongo import initialize_db
 from resources import initialize_routes
 
@@ -20,6 +22,11 @@ initialize_routes(api_app)
 firebase_initialization()
 
 initialize_db(app)
+
+
+@app.errorhandler(InvalidAPIUsage)
+def invalid_api_usage(e):
+    return Response(json.dumps(e.to_dict(),default=json_util.default), mimetype="application/json", status=e.status_code)
 
 
 @app.route("/", methods=["GET"])

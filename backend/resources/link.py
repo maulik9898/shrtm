@@ -17,6 +17,8 @@ class LinkApi(Resource):
     @check_token
     def get(self, slug):
         resp, code = api.find_url(slug)
+        if code == 200:
+            resp = self.format(resp)
         return Response(json.dumps(resp,default=json_util.default), mimetype="application/json", status=code)
 
     @check_apiKey
@@ -33,7 +35,8 @@ class LinkApi(Resource):
             body['slug'] = slug
 
         resp, code = api.create_short_url(body)
-
+        if code == 200:
+            resp = self.format(resp)
         return Response(json.dumps(resp,default=json_util.default), mimetype="application/json", status=code)
 
     @check_apiKey
@@ -55,3 +58,16 @@ class LinkApi(Resource):
         resp = ''
         code = 200
         return Response(json.dumps(resp,default=json_util.default), mimetype="application/json", status=code)
+
+    def format(self, short_url):
+        password = short_url['password']
+        if password:
+            short_url['password'] = True
+            if request.user['userId'] != short_url['userId']:
+                del short_url['originalUrl']
+        else:
+            short_url['password'] = False
+        del short_url['_id']
+        del short_url['userId']
+
+        return short_url
