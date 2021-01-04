@@ -1,15 +1,56 @@
-<form [formGroup]="createLinkForm" (ngSubmit)="createLink()">
+<form (ngSubmit)="createLink()" [formGroup]="createLinkForm" autocomplete="off">
+  <div class="form-group">
 
-  <label>
-    Url:
-    <input type="text" formControlName="url" required>
-  </label>
+    <label for="url">URL</label>
+    <div class="input-group input-group-lg mb-2 mr-sm-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text"> <fa-icon [icon]="linkIcon"></fa-icon></div>
+          </div>
+    <input class="form-control" formControlName="url" id="url" required type="url">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-auto">
+      <div class="form-group">
+        <label for="slug">Slug</label>
+        <div class="input-group mb-2 mr-sm-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">/</div>
+          </div>
+          <input class="form-control" [class.is-invalid]="isInvalid" formControlName="slug" id="slug" type="text" autocomplete="off">
+          <div class="invalid-feedback">
+            {{error}}
+      </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-group mb-2 mr-sm-2">
+          <input class="form-control" formControlName="password" id="password" [type]="type"
+                   autocomplete="new-password">
+          <div class="input-group-append">
 
-  <label>
-    Slug:
-    <input type="text" formControlName="slug">
-    <span *ngIf="error">{{error}}</span>
-  </label>
-  <button type="submit" [disabled]="!createLinkForm.valid">Submit</button>
+            <button class=" btn btn-outline-secondary" type="button" (click)="changePasswordVisibility()">
+              <fa-icon [icon]="passwordVisibility"></fa-icon>
+            </button>
 
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" [disabled]="!createLinkForm.valid" type="submit">Submit</button>
 </form>
+<div class="row pt-4" *ngIf="success">
+  <div class="col-md-12">
+
+    <p  class="text-center text-monospace h5">
+      <button class=" btn btn-hover  text-box btn-white btn-animate mr-2" type="button" (click)="copyToClipboard()">
+      <fa-icon [icon]="copyIcon"></fa-icon>
+      </button>
+      <a class="text-center text-hover " [href]="shortUrl">{{shortUrl}}</a></p>
+  </div>
+</div>

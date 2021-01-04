@@ -1,20 +1,13 @@
-<div>
-  <p>
-   <span class="redirect" routerLink="/">Shrtm</span>
-  </p>
-  <div>
-    <div *ngIf="authService.isLoggedIn;then thenBlock else elseBlock"></div>
-    <ng-template #thenBlock>
-      <button (click)="authService.SignOut()">Sign out</button>
-      <button routerLink="/settings">Settings</button>
-    </ng-template>
-    <ng-template #elseBlock>
-      <button routerLink="/sign-in">Sign in</button>
-      <button routerLink="/sign-up">Sign up</button>
-    </ng-template>
-
+<div class="container">
+  <div class="row">
+    <div class="col-md mb-5">
+      <app-header></app-header>
+    </div>
+  </div>
+    <div class="row mt-5">
+      <div class="col-md">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
 
-</div>
-
-<router-outlet></router-outlet>

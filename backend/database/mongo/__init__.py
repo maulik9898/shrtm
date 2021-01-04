@@ -20,9 +20,9 @@ def initialize_db(app):
     password = os.environ.get('MONGODB_PASSWORD')
     host_name = host_name.replace('[:id]', urllib.parse.quote_plus(user_name))
     host_name = host_name.replace('[:pass]', urllib.parse.quote_plus(password))
+    print(host_name)
     app.config['MONGODB_SETTINGS'] = {
-        'db': db_name,
-        'host': host_name,
+        'host': host_name+'/'+db_name,
     }
 
     db.init_app(app)

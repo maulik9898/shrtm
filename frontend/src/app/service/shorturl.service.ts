@@ -33,20 +33,20 @@ export class ShorturlService {
 
   getShortUrl(slug: string): Observable<ShortUrl> {
   return this.httpClient
-      .get<ShortUrl>(`${this.API_URL}/api/link/${slug}`);
+      .get<ShortUrl>(`${this.API_URL}/api/link${slug}`);
 
 }
 createShortUrl( data: ShortUrl): Observable<ShortUrl>{
     return this.httpClient
-      .post<ShortUrl>(`${this.API_URL}/api/link/`, data);
+      .post<ShortUrl>(`${this.API_URL}/api/link`, data);
 }
 getUser(): Observable<User> {
     return this.httpClient
-      .get<User>(`${this.API_URL}/api/user/`);
+      .get<User>(`${this.API_URL}/api/user`);
 }
 
 updateApiKey(): Observable<User>{
     return this.httpClient
-      .put<User>(`${this.API_URL}/api/user/`, {});
+      .put<User>(`${this.API_URL}/api/user`, {});
 }
 }

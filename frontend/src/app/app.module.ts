@@ -20,6 +20,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SettingsComponent } from './settings/settings.component';
 import {TokenInterceptor} from './_interceptor/token.interceptor';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderComponent } from './header/header.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -42,6 +45,7 @@ const routes: Routes = [
     SignUpComponent,
     DashboardComponent,
     SettingsComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +55,9 @@ const routes: Routes = [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule,
+    FontAwesomeModule
   ],
   providers: [
     ShorturlService,
